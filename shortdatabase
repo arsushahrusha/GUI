@@ -1,0 +1,22 @@
+# -*- coding: utf-8 -*-
+
+import os
+import pandas as pd
+
+
+os.chdir("c:/work/work/")
+
+data = pd.ExcelFile('./data/courses.xlsx')
+
+
+arr = ['student', 'groups', 'courses', 'schools',]
+
+if not(all(os.path.exists(f"./data/{name}.pick") for name in arr)):
+    for sn in data.sheet_names[1:]:
+        exec(f'{sn} = data.parse(sheet_name="{sn}")')
+        exec(f'{sn}.to_pickle("./data/{sn}.pick")')
+
+student = pd.read_pickle('./data/student.pick')
+groups = pd.read_pickle('./data/groups.pick')
+courses = pd.read_pickle('./data/courses.pick')
+schools = pd.read_pickle('./data/schools.pick')
